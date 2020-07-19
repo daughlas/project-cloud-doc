@@ -1,18 +1,46 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
+import {faPlus, faFileImport} from '@fortawesome/free-solid-svg-icons'
+
 import FileSearch from './components/FileSearch'
+import FileList from './components/FileList'
+import defaultFiles from './utils/defaultFiles'
+import BottomBtn from './components/BottomBtn'
 
 import './App.css';
 
 function App() {
   return (
-    <div className="App container-fluid">
-      <div class="row">
-        <div className="col-3 bg-danger left-panel">
+    <div className="App container-fluid px-0">
+      <div className="row no-gutters">
+        <div className="col-3 left-panel">
           <FileSearch
             title="我的云文档"
+            onFileSearch={(value) => {console.log(value)}}
           >
           </FileSearch>
+          <FileList
+            files={defaultFiles}
+            onFileClick={(id) => console.log(id)}
+            onFileDelete={(id) => console.log('delete' + id)}
+            onSaveEdit={(id, newVal) => {console.log(id);console.log(newVal)}}
+          />
+          <div className="row no-gutters">
+            <div className="col">
+              <BottomBtn
+                text="新建"
+                colorClass="btn-primary"
+                icon={faPlus}
+              />
+            </div>
+            <div className="col">
+              <BottomBtn
+                text="导入"
+                colorClass="btn-success"
+                icon={faFileImport}
+              />
+            </div>
+          </div>
         </div>
         <div className="col-9 bg-primary right-panel">
           <h1>This is the  right</h1>
