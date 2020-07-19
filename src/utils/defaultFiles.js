@@ -1,11 +1,11 @@
 const defaultFiles = [
   {
-    id: 1,
-    title: '1'
+    id: "1",
+    title: 'first post'
   },
   {
-    id: 2,
-    title: 2
+    id: "2",
+    title: 'second post'
   }
 ]
 
