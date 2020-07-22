@@ -13,24 +13,35 @@ const FileList = ({files, onFileClick, onSaveEdit, onFileDelete}) => {
   const enterPressed = useKeyPress(13)
   const escPressed = useKeyPress(27)
 
-  const closeSearch = () => {
+  const closeSearch = (editItem) => {
     setEditStatus(false)
     setValue('')
+    // if we are editing a newly created file, we should delete thile file
+    if (editItem.isNew) {
+      onFileDelete(editItem.id)
+    }
   }
 
   useEffect(() => {
-    if (enterPressed && editStatus) {
-      const editItem = files.find(file => file.id === editStatus)
-      onSaveEdit(editItem.id, value)
+    const editItem = files.find(file => file.id === editStatus)
+    if (enterPressed && editStatus && value.trim() !== '') {
+      onSaveEdit(editItem.id, value, editItem.isNew)
       setEditStatus(false)
-      setValue(false)
+      setValue('')
     }
     if (escPressed && editStatus) {
-      closeSearch()
+      closeSearch(editItem)
     }
-  }, [editStatus, enterPressed, escPressed, files, onSaveEdit, value])
+  // eslint-disable-next-line
+  }, [enterPressed, escPressed, editStatus, files, onSaveEdit, value])
 
-
+  useEffect(() => {
+    const newFile = files.find(file => file.isNew)
+    if (newFile) {
+      setEditStatus(newFile.id)
+      setValue(newFile.title)
+    }
+  }, [files])
 
   return (
     <ul className="list-group list-group-flush file-list">
@@ -41,15 +52,16 @@ const FileList = ({files, onFileClick, onSaveEdit, onFileDelete}) => {
             key={file.id}
           >
             {
-              file.id === editStatus &&
+              (file.id === editStatus || file.isNew) &&
               (<>
                 <input
                   value={value}
+                  placeholder="请输入文件名称"
                   onChange={(e) => { setValue(e.target.value) }}
                   className="form-control"
                 />
                 <button
-                  onClick={closeSearch}
+                  onClick={() => {closeSearch(file)}}
                   className="icon-button"
                   type="button"
                 >
@@ -58,7 +70,7 @@ const FileList = ({files, onFileClick, onSaveEdit, onFileDelete}) => {
               </>)
             }
             {
-              (file.id !== editStatus) &&
+              (file.id !== editStatus && !file.isNew) &&
               (<>
                 <div className="flex-1" onClick={() => {onFileClick(file.id)}}>
                   <FontAwesomeIcon icon={faMarkdown} className="mr-10"/>

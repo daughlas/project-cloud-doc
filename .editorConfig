@@ -23,7 +23,7 @@ indent_size = 4
 indent_style = tab
 
 # Indentation override for all JS under lib directory  设置在lib目录下所有JS的缩进为
-[lib/**.js]
+[l*.js]
 indent_style = space
 indent_size = 2
 
@@ -31,6 +31,3 @@ indent_size = 2
 [{package.json,.travis.yml}]
 indent_style = space
 indent_size = 2
-————————————————
-版权声明：本文为CSDN博主「Gabriel_wei」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
-原文链接：https://blog.csdn.net/Gabriel_wei/java/article/details/90286668
