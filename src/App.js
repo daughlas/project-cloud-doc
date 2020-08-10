@@ -149,7 +149,10 @@ function App() {
   }
 
   const importFiles = () => {
-
+    remote.dialog.showOpenDialog({
+      title: '选择导入的 markdown 文件',
+      properties: []
+    })
   }
 
   const saveCurrentFile = () => {
